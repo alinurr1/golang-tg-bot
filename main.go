@@ -29,7 +29,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	b.Handle("/hello", func(m *tb.Message){
-		b.Send(m.Sender, "Greetings, soul")
-	})
+	b.Handle("/hello", func(m *tb.Message) {
+		b.Send(m.Sender, "You entered "+m.Text)
+  	})
 }
