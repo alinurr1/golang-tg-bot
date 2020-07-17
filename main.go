@@ -60,10 +60,10 @@ Of virgin days I left behind.`
 
 	b.Handle("/start", func(m *tb.Message) {
 		b.Send(m.Sender, `I greet you human!
-	Here is the list of commands that I know:
-	- /hello
-	- /poem
-	- /pick_time`)
+Here is the list of commands that I know:
+- /hello
+- /poem
+- /pick_time`)
 	})
 
 	b.Handle("/hello", func(m *tb.Message) {
