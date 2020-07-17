@@ -7,6 +7,35 @@ import (
     tb "gopkg.in/tucnak/telebot.v2"
 )
 
+poem := `The lazy artist-boor is blacking
+The genius's picture with his stuff,
+Without any sense a-making
+His low drawing above.
+	
+But alien paints, in stride of years,
+Are falling down as a dust,
+The genius's masterpiece appears
+With former brilliance to us.
+	
+Like this, the darkly apparitions
+Are leaving off my tortured heart,
+And it again revives the visions
+Of virgin days I left behind.`
+
+inlineBtn1 := tb.InlineButton{
+	Unique: "moon",
+	Text:   "Moon 🌚",
+}
+
+inlineBtn2 := tb.InlineButton{
+	Unique: "sun",
+	Text:   "Sun 🌞",
+}
+
+inlineKeys := [][]tb.InlineButton{
+    []tb.InlineButton{inlineBtn1, inlineBtn2},
+}
+
 func main() {
     var (
         port      = os.Getenv("PORT")
@@ -29,31 +58,36 @@ func main() {
 		log.Fatal(err)
 	}
 
-	b.Handle("/poem", func(m *tb.Message) {
-		b.Send(m.Sender, 
-			`The lazy artist-boor is blacking
-			The genius's picture with his stuff,
-			Without any sense a-making
-			His low drawing above.
-			
-			But alien paints, in stride of years,
-			Are falling down as a dust,
-			The genius's masterpiece appears
-			With former brilliance to us.
-			
-			Like this, the darkly apparitions
-			Are leaving off my tortured heart,
-			And it again revives the visions
-			Of virgin days I left behind.`)
-		b.Send(m.Sender, `By Aleksandr Pushkin`)
-	})
-
 	b.Handle("/hello", func(m *tb.Message) {
 		b.Send(m.Sender, "Greetings, soul")
 	})
 
-	b.Handle("", func(m *tb.Message) {
-		b.Send(m.Sender, "You entered "+m.Text)
+	b.Handle("/poem", func(m *tb.Message) {
+		b.Send(m.Sender, poem)
+		b.Send(m.Sender, `By Aleksandr Pushkin`)
+	})
+
+	b.Handle(&inlineBtn1, func(c *tb.Callback) {
+        // Required for proper work
+		b.Respond(c, &tb.CallbackResponse{
+			ShowAlert: false,
+		})
+        // Send messages here
+    	b.Send(c.Sender, "Moon says 'Hi'!")
+	})
+
+	b.Handle(&inlineBtn2, func(c *tb.Callback) {
+		b.Respond(c, &tb.CallbackResponse{
+			ShowAlert: false,
+		})
+		b.Send(c.Sender, "Sun says 'Hi'!")
+	})
+
+	b.Handle("/pick_time", func(m *tb.Message) {
+		b.Send(
+			m.Sender,
+			"Day or night, you choose",
+			&tb.ReplyMarkup{InlineKeyboard: inlineKeys})
 	})
 	  
 	b.Start()
