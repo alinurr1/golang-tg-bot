@@ -7,35 +7,6 @@ import (
     tb "gopkg.in/tucnak/telebot.v2"
 )
 
-poem := `The lazy artist-boor is blacking
-The genius's picture with his stuff,
-Without any sense a-making
-His low drawing above.
-	
-But alien paints, in stride of years,
-Are falling down as a dust,
-The genius's masterpiece appears
-With former brilliance to us.
-	
-Like this, the darkly apparitions
-Are leaving off my tortured heart,
-And it again revives the visions
-Of virgin days I left behind.`
-
-inlineBtn1 := tb.InlineButton{
-	Unique: "moon",
-	Text:   "Moon 🌚",
-}
-
-inlineBtn2 := tb.InlineButton{
-	Unique: "sun",
-	Text:   "Sun 🌞",
-}
-
-inlineKeys := [][]tb.InlineButton{
-    []tb.InlineButton{inlineBtn1, inlineBtn2},
-}
-
 func main() {
     var (
         port      = os.Getenv("PORT")
@@ -56,6 +27,35 @@ func main() {
 	b, err := tb.NewBot(pref)
 	if err != nil{
 		log.Fatal(err)
+	}
+
+	poem := `The lazy artist-boor is blacking
+	The genius's picture with his stuff,
+	Without any sense a-making
+	His low drawing above.
+		
+	But alien paints, in stride of years,
+	Are falling down as a dust,
+	The genius's masterpiece appears
+	With former brilliance to us.
+		
+	Like this, the darkly apparitions
+	Are leaving off my tortured heart,
+	And it again revives the visions
+	Of virgin days I left behind.`
+
+	inlineBtn1 := tb.InlineButton{
+		Unique: "moon",
+		Text:   "Moon 🌚",
+	}
+
+	inlineBtn2 := tb.InlineButton{
+		Unique: "sun",
+		Text:   "Sun 🌞",
+	}
+
+	inlineKeys := [][]tb.InlineButton{
+		[]tb.InlineButton{inlineBtn1, inlineBtn2},
 	}
 
 	b.Handle("/hello", func(m *tb.Message) {
