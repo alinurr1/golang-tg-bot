@@ -30,19 +30,19 @@ func main() {
 	}
 
 	poem := `The lazy artist-boor is blacking
-	The genius's picture with his stuff,
-	Without any sense a-making
-	His low drawing above.
+The genius's picture with his stuff,
+Without any sense a-making
+His low drawing above.
+
+But alien paints, in stride of years,
+Are falling down as a dust,
+The genius's masterpiece appears	
+With former brilliance to us.
 		
-	But alien paints, in stride of years,
-	Are falling down as a dust,
-	The genius's masterpiece appears
-	With former brilliance to us.
-		
-	Like this, the darkly apparitions
-	Are leaving off my tortured heart,
-	And it again revives the visions
-	Of virgin days I left behind.`
+Like this, the darkly apparitions
+Are leaving off my tortured heart,
+And it again revives the visions
+Of virgin days I left behind.`
 
 	inlineBtn1 := tb.InlineButton{
 		Unique: "moon",
@@ -60,10 +60,10 @@ func main() {
 
 	b.Handle("/start", func(m *tb.Message) {
 		b.Send(m.Sender, `I greet you human!
-		Here is the list of commands that I know:
-		- /hello
-		- /poem
-		- /pick_time`)
+	Here is the list of commands that I know:
+	- /hello
+	- /poem
+	- /pick_time`)
 	})
 
 	b.Handle("/hello", func(m *tb.Message) {
