@@ -1,31 +1,31 @@
 package main
 
 import (
-    "log"
-    "os"
+	"log"
+	"os"
 
-    tb "gopkg.in/tucnak/telebot.v2"
+	tb "gopkg.in/tucnak/telebot.v2"
 )
 
 func main() {
-    var (
-        port      = os.Getenv("PORT")
-        publicURL = os.Getenv("PUBLIC_URL")
-        token     = os.Getenv("TOKEN")
-    )
+	var (
+		port      = os.Getenv("PORT")
+		publicURL = os.Getenv("PUBLIC_URL")
+		token     = os.Getenv("TOKEN")
+	)
 
-    webhook := &tb.Webhook{
-        Listen:   ":" + port,
-        Endpoint: &tb.WebhookEndpoint{PublicURL: publicURL},
-    }
+	webhook := &tb.Webhook{
+		Listen:   ":" + port,
+		Endpoint: &tb.WebhookEndpoint{PublicURL: publicURL},
+	}
 
-    pref := tb.Settings{
-        Token:  token,
-        Poller: webhook,
-    }
+	pref := tb.Settings{
+		Token:  token,
+		Poller: webhook,
+	}
 
 	b, err := tb.NewBot(pref)
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -58,6 +58,14 @@ func main() {
 		[]tb.InlineButton{inlineBtn1, inlineBtn2},
 	}
 
+	b.Handle("/start", func(m *tb.Message) {
+		b.Send(m.Sender, `I greet you human!
+		Here is the list of commands that I know:
+		- /hello
+		- /poem
+		- /pick_time`)
+	})
+
 	b.Handle("/hello", func(m *tb.Message) {
 		b.Send(m.Sender, "Greetings, soul")
 	})
@@ -68,12 +76,12 @@ func main() {
 	})
 
 	b.Handle(&inlineBtn1, func(c *tb.Callback) {
-        // Required for proper work
+		// Required for proper work
 		b.Respond(c, &tb.CallbackResponse{
 			ShowAlert: false,
 		})
-        // Send messages here
-    	b.Send(c.Sender, "Moon says 'Hi'!")
+		// Send messages here
+		b.Send(c.Sender, "Moon says 'Hi'!")
 	})
 
 	b.Handle(&inlineBtn2, func(c *tb.Callback) {
@@ -89,6 +97,6 @@ func main() {
 			"Day or night, you choose",
 			&tb.ReplyMarkup{InlineKeyboard: inlineKeys})
 	})
-	  
+
 	b.Start()
 }
