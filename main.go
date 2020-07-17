@@ -1,26 +1,28 @@
 package main
 
-import{
-	"os"
-	tb "gopkg.in/tucnak/telebot.v2"
-}
+import (
+    "log"
+    "os"
 
-func main(){
-	var(
-		port = os.Getenv("PORT") //Set automatically
-		publicURL = os.Getenv("PUBLIC_URL") //Set at config
-		token = os.Getenv("TOKEN")//Set at config
-	)
+    tb "gopkg.in/tucnak/telebot.v2"
+)
 
-	webhook := &tb.Webhook{
-		Listen: ":" + port,
-		Endpoint: &tb.WebhookEndpoint{PublicURL: publicURL},
-	}
+func main() {
+    var (
+        port      = os.Getenv("PORT")
+        publicURL = os.Getenv("PUBLIC_URL")
+        token     = os.Getenv("TOKEN")
+    )
 
-	pref := tb.Settings{
-		Token: token,
-		Poller: webhook,
-	}
+    webhook := &tb.Webhook{
+        Listen:   ":" + port,
+        Endpoint: &tb.WebhookEndpoint{PublicURL: publicURL},
+    }
+
+    pref := tb.Settings{
+        Token:  token,
+        Poller: webhook,
+    }
 
 	b, err := tb.NewBot(pref)
 	if err != nil{
